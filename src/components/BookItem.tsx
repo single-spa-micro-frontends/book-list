@@ -1,6 +1,4 @@
-// import { lazy } from "react";
-
-// const Button = lazy(() => import("shared/Button"));
+import Button from "./Button";
 
 const BookItem = ({ book, onShowSingleBook, handleAddToCart }) => {
   const addToCart = (e) => {
@@ -42,7 +40,9 @@ const BookItem = ({ book, onShowSingleBook, handleAddToCart }) => {
 
       {/* Add to Cart Button */}
       <div className="flex justify-center items-center p-4">
-        {/* <Button onClick={addToCart}>Add to Cart</Button> */}
+        <Button onClick={addToCart} variant={"primary"}>
+          Add to Cart
+        </Button>
       </div>
     </button>
   );

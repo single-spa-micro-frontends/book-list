@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import { fetchBooks } from "./api/api";
 import BookItem from "./components/BookItem";
-// import { useGlobalContext } from "host/GlobalContext";
 
 const App = () => {
   const [searchText, setSearchText] = useState("");
-  // const { addToCart, setSelectedBook, searchText } = useGlobalContext();
 
   const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
 
-  const getBooksFromGoogleApi = async (query) => {
+  const getBooksFromGoogleApi = async (query: string) => {
     try {
       setIsLoading(true);
       const data = await fetchBooks(query);
@@ -25,17 +23,15 @@ const App = () => {
   };
 
   useEffect(() => {
-    getBooksFromGoogleApi(searchText);
-
-    return () => {};
+    void getBooksFromGoogleApi(searchText);
   }, [searchText]);
 
-  const showSingleBook = (id) => {
+  const showSingleBook = (id: number) => {
     console.log("selected book id", id);
     // setSelectedBook(id);
   };
 
-  const addSingleBookToCart = (book) => {
+  const addSingleBookToCart = () => {
     // const data = {
     //   title: book.volumeInfo.title,
     //   image: book.volumeInfo.imageLinks?.thumbnail,
