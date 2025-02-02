@@ -3,6 +3,7 @@
 import React from 'react'
 import ReactDOMClient from 'react-dom/client'
 
+import './index.css'
 import rootComponent from './App';
 import singleSpaReact from 'single-spa-react';
 
