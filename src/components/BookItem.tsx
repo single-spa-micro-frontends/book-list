@@ -1,7 +1,18 @@
+import { Book } from "../types";
 import Button from "./Button";
 
-const BookItem = ({ book, onShowSingleBook, handleAddToCart }) => {
-  const addToCart = (e) => {
+interface BookItemProps {
+  book: Book;
+  onShowSingleBook: (id: string) => void;
+  handleAddToCart: (book: Book) => void;
+}
+
+const BookItem = ({
+  book,
+  onShowSingleBook,
+  handleAddToCart,
+}: BookItemProps) => {
+  const addToCart = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     handleAddToCart(book);
   };

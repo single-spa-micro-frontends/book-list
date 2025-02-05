@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { fetchBooks } from "./api/api";
 import BookItem from "./components/BookItem";
+import { Book, EnrichedWindow } from "./types";
 
 const App = () => {
   const [searchText, setSearchText] = useState("");
 
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -23,11 +24,11 @@ const App = () => {
   };
 
   useEffect(() => {
-    const searchTextSub = window.eventBus.searchState$.subscribe(
-      (state: any) => {
-        setSearchText(state.query);
-      }
-    );
+    const searchTextSub = (
+      window as unknown as EnrichedWindow
+    ).eventBus.searchState$.subscribe((state: { query: string }) => {
+      setSearchText(state.query);
+    });
 
     return () => searchTextSub.unsubscribe();
   }, []);
@@ -36,19 +37,19 @@ const App = () => {
     void getBooksFromGoogleApi(searchText);
   }, [searchText]);
 
-  const showSingleBook = (id: number) => {
+  const showSingleBook = (id: string) => {
     console.log("selected book id", id);
-    (window as any).eventBus.setSelectedBook(id);
+    (window as unknown as EnrichedWindow).eventBus.setSelectedBook(id);
   };
 
-  const addSingleBookToCart = (book: any) => {
+  const addSingleBookToCart = (book: Book) => {
     const data = {
       title: book.volumeInfo.title,
       image: book.volumeInfo.imageLinks?.thumbnail,
       bookId: book.id,
       quantity: 1,
     };
-    (window as any).eventBus.addToCart(data);
+    (window as unknown as EnrichedWindow).eventBus.addToCart(data);
   };
 
   return (
