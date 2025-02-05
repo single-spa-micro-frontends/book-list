@@ -23,22 +23,32 @@ const App = () => {
   };
 
   useEffect(() => {
+    const searchTextSub = window.eventBus.searchState$.subscribe(
+      (state: any) => {
+        setSearchText(state.query);
+      }
+    );
+
+    return () => searchTextSub.unsubscribe();
+  }, []);
+
+  useEffect(() => {
     void getBooksFromGoogleApi(searchText);
   }, [searchText]);
 
   const showSingleBook = (id: number) => {
     console.log("selected book id", id);
-    // setSelectedBook(id);
+    (window as any).eventBus.setSelectedBook(id);
   };
 
-  const addSingleBookToCart = () => {
-    // const data = {
-    //   title: book.volumeInfo.title,
-    //   image: book.volumeInfo.imageLinks?.thumbnail,
-    //   bookId: book.id,
-    //   quantity: 1,
-    // };
-    // addToCart(data);
+  const addSingleBookToCart = (book: any) => {
+    const data = {
+      title: book.volumeInfo.title,
+      image: book.volumeInfo.imageLinks?.thumbnail,
+      bookId: book.id,
+      quantity: 1,
+    };
+    (window as any).eventBus.addToCart(data);
   };
 
   return (
